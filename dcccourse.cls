@@ -1,17 +1,11 @@
 \ProvidesClass{dcccourse}[2015/04/01 Beta 0.4
 LaTeX Class for documents of the courses in the Department of Computer Science, University of Chile]
 
-\newif\ifdcc@taclass\dcc@taclassfalse
-\newif\ifdcc@homeworksol\dcc@homeworksolfalse
-\newif\ifdcc@testsol\dcc@testsolfalse
-\DeclareOption{taclass}{\dcc@taclasstrue}
-\DeclareOption{homeworksol}{\dcc@homeworksoltrue}
-\DeclareOption{testsol}{\dcc@testsoltrue}
-
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
 \LoadClass[11pt]{article}
 
+%REQUIRED PACKAGES
 \RequirePackage{fancyhdr}
 \RequirePackage{graphicx}
 \RequirePackage{enumerate}
@@ -19,34 +13,14 @@ LaTeX Class for documents of the courses in the Department of Computer Science, 
 \RequirePackage{ifthen}
 \RequirePackage{forloop}
 
-%% DOCUMENT TYPE
+%%COMMANDS FOR PROBLEMS
 \global\let\@num\@empty
 \newcommand{\num}[1]{\def\@num{#1}}
-\def\@@title{\@title}
 
-\ifdcc@taclass
-  \def\@@title{Auxiliar \@num{} - \@title}
-  \AtBeginDocument{\maketitle\enumerate[\bf P1.]}
-  \AtEndDocument{\endenumerate}
-  \global\let\problem\item
-\fi
-
-\ifdcc@homeworksol
-  \newcommand{\solution}{{\vskip 0.25em \hskip -\leftmargin \bf Soluci\'on: \vskip 0.25em}}
-  \def\@@title{Soluci\'on Tarea \@num{}}
-  \AtBeginDocument{\maketitle\enumerate[\bf P1.]}
-  \AtEndDocument{\endenumerate}
-  \global\let\problem\item
-\fi
-
-\ifdcc@testsol
-  \newcommand{\solution}{{\vskip 0.25em \hskip -\leftmargin \bf Soluci\'on: \vskip 0.25em}}
-  \def\@@title{Soluci\'on Control \@num{}}
-  \AtBeginDocument{\maketitle\enumerate[\bf P1.]}
-  \AtEndDocument{\endenumerate}
-  \global\let\problem\item
-\fi
-
+\def\@@title{Auxiliar \@num{} - \@title}
+\AtBeginDocument{\maketitle\enumerate[\bf P1.]}
+\AtEndDocument{\endenumerate}
+\global\let\problem\item
 
 
 %% GEOMETRY
