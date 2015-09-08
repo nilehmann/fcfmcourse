@@ -47,14 +47,17 @@ LaTeX Class for documents of the courses in the Department of Computer Science, 
 %% TITLE
 \newcommand{\@email}[1]{\ifthenelse{\equal#1\@empty}{}{\texttt{[#1]}}}
 
-\global\let\@professor\@empty
-\newcommand{\professor}[2][\@empty]{\def\@professor{#2 \@email{#1}}}
+%% COMMANDS TO ADD PROFESSORS AND ASSISTANT TEACHERS
+\newcounter{professorCnt}
+\newcommand{\professor}[2][\@empty]{\expandafter\def\csname professor@\theprofessorCnt\endcsname{#2 \@email{#1}} \stepcounter{professorCnt}}
+\newcommand{\@Profesor}{Profesor\ifthenelse{\value{professorCnt} = 1}{}{es}:\relax}
+
 
 \newcounter{assistantCnt}
 \newcommand{\assistant}[2][\@empty]{\expandafter\def\csname assistant@\theassistantCnt\endcsname{#2 \@email{#1}} \stepcounter{assistantCnt}}
-
 \newcommand{\@Auxiliar}{Auxiliar\ifthenelse{\value{assistantCnt} = 1}{}{es}:\relax}
 
+\newcounter{cnt}
 \renewcommand{\maketitle}{
   \begin{center}
     \LARGE{\begin{minipage}{0.88\textwidth}\centering \@@title\end{minipage}}
@@ -63,11 +66,14 @@ LaTeX Class for documents of the courses in the Department of Computer Science, 
     {
     \setlength{\tabcolsep}{2pt}
     \begin{tabular}{rl}
-      Profesor: & \@professor
+      \ifthenelse{\value{professorCnt} = 0}{}{%
+        \forloop{cnt}{0}{\value{cnt} < \value{professorCnt}}{
+          \ifthenelse{\value{cnt} = 0}{\@Profesor}{\\} & \csname professor@\thecnt\endcsname 
+        }
+      }
       \ifthenelse{\value{assistantCnt} = 0}{}{\\[0.2em]
-        \newcounter{cnt}
         \forloop{cnt}{0}{\value{cnt} < \value{assistantCnt}}{
-          \ifthenelse{\value{cnt} = 0}{\@Auxiliar}{\\} & \csname assistant@\thecnt \endcsname 
+          \ifthenelse{\value{cnt} = 0}{\@Auxiliar}{\\} & \csname assistant@\thecnt\endcsname 
         }
       }
     \end{tabular}
