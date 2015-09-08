@@ -1,6 +1,9 @@
 \ProvidesClass{dcccourse}[2015/04/01 Beta 0.4
 LaTeX Class for documents of the courses in the Department of Computer Science, University of Chile]
 
+\newif\ifdcc@usedate\dcc@usedatefalse
+\DeclareOption{usedate}{\dcc@usedatetrue}
+
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
 \LoadClass[11pt]{article}
@@ -60,7 +63,7 @@ LaTeX Class for documents of the courses in the Department of Computer Science, 
 \newcounter{cnt}
 \renewcommand{\maketitle}{
   \begin{center}
-    \LARGE{\begin{minipage}{0.88\textwidth}\centering \@@title\end{minipage}}
+    {\LARGE\begin{minipage}{0.88\textwidth}\centering \@@title\end{minipage}}
     \vskip 0.5em
     \small
     {
@@ -78,6 +81,10 @@ LaTeX Class for documents of the courses in the Department of Computer Science, 
       }
     \end{tabular}
     }
+    \ifdcc@usedate
+    \vskip 0.5em
+    \@date
+    \fi
 
     \vskip 1.5em
     \normalsize
