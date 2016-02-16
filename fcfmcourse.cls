@@ -1,4 +1,4 @@
-\ProvidesClass{fcfmcourse}[2015/04/01 Beta 0.5
+\ProvidesClass{fcfmcourse}[2016/16/02 Beta 0.5
 LaTeX Class for standardization of teaching assistant classes in the Faculty of Physical and Mathematical Sciences, University of Chile]
 
 %%%%%% OPTIONS DECLARATION
