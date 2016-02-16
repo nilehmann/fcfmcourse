@@ -1,0 +1,24 @@
+\ProvidesPackage{teoria}
+  [2015/03/25 Beta 0.1 Paquete para auxiliares de teoria]
+  
+\RequirePackage{ifthen}
+\RequirePackage{amsmath}
+\RequirePackage{amsfonts}
+\RequirePackage{amssymb}
+\RequirePackage{vaucanson-g}
+  
+\newcommand{\lang}[3]{\ifthenelse{\equal{#1}{}}{}{#1 = }\{#2$\;|\;$#3\}}
+\newcommand{\set}[1]{\{#1\}}
+
+\newcommand{\expand}[2]{\ensuremath{#1_1#1_2\dots#1_{#2}}}
+
+\newcommand{\ords}[1]{\ensuremath{\set{1,2,\dots,#1}}}
+\newcommand{\nats}[1]{\ensuremath{\set{0,1,\dots,#1}}}
+
+\FixVCScale{0.8}
+\ChgStateLabelScale{0.6}
+\ChgStateLineWidth{0.9}
+\ChgEdgeLabelScale{0.7}
+\ChgLoopAngle{25}
+\ChgLoopOffset{0pt}
+\ChgEdgeLabelSep{0.7}

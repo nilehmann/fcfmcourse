@@ -1,7 +1,9 @@
 *~
 auto
 *.swp
+*.dvi
 *.log
 *.aux
-_minted*
-fcfm_dcc-eps-converted-to.pdf
+*-eps-converted-to.pdf
+*.fdb_latexmk
+*.fls

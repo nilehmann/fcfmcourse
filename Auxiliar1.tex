@@ -1,91 +1,85 @@
-\documentclass[usedate]{dcccourse}
-\usepackage{introprogra}
+\documentclass[dcc]{fcfmcourse}
+\usepackage{teoria}
 \usepackage[utf8]{inputenc}
 
-
-\num{1}
-\title{Autómatas finitos y no deterministas}
-\course{CC1002 - Introducción a la Programación}
-\professor[ahevia@dcc.uchile.cl]{Alejandro Hevia}
-%\professor[gnavarro@dcc.uchile.cl]{Gonzalo Navarro}
-\assistant[nlehmann@dcc.uchile.cl]{Nicolás Lehmann}
-\assistant[jgarrido@dcc.uchile.cl]{José Garrido}
-% Si pasas el comando usedate a la clase, la fecha aparecerá bajo la lista de auxiliares
-% puedes usar el formato de la fecha por defecto de latex (y traducirla usando babel)
-% o puedes escribir lo que quieras con el comando \date
-%\date{1 de Septiembre, 2015}
-
+\title[1]{Autómatas finitos y no deterministas}
+\course[CC3102]{Teoría de la Computación}
+\professor[jperez@dcc.uchile.cl]{Jorge Pérez}
+\assistant[nlehmann@dcc.uchile.cl]{Nicolás Lehman}
+\assistant[ralonso@dcc.uchile.cl]{Rodrigo Alonso}
+% Si pasas el comando usedate a la clase, la fecha aparecerá bajo la lista de auxiliares.
+% Puedes usar el formato de fecha por defecto de latex (y traducirla usando babel)
+% o puedes escribir lo que quieras con el comando \date.
+% \date{1 de Septiembre, 2015}
 
 
 \begin{document}
+\maketitle
 
-\problem
-La expansión en serie de Taylor de la función $\cos(x)$ en torno al cero es:
-$$\cos (x) = \sum^{\infty}_{n=0} \frac{(-1)^n}{(2n)!} x^{2n}$$
+\begin{problems}
+\problem Dando un diagrama de estados construya un AFD que acepte cada uno de los siguientes lenguajes.
 
-Considerando hasta el cuarto término podemos aproximar la función de la siguiente forma:
-$$\cos  (x) \approx 1-\frac{x^2}{2!}+\frac{x^4}{4!}-\frac{x^6}{6!} $$
+\begin{enumerate}
+\item \lang{$L_1$}{$w\in \set{a,b}^*$}{$w$ tiene un numero impar de $a$'s y un número par de $b$'s}
+  \begin{solution}
+    \begin{VCPicture}{(-1,-1)(4,4)}
+    \State[q_0]{(0,0)}{0}
+    \State[q_1]{(3,0)}{1}
+    \FinalState[q_2]{(0,3)}{2}
+    \State[q_3]{(3,3)}{3}
+    \Initial{0}
 
-Escriba una expresión en python que calcule aproximadamente el valor $\cos (0.785)$. ?`Qué harías si tienes que calcular la función en más de un punto del dominio?
+    \ArcR{0}{1}{a}
+    \ArcR{0}{2}{b}
+    \ArcR{1}{0}{a}
+    \ArcR{1}{3}{b}
+    \ArcR{2}{0}{b}
+    \ArcR{2}{3}{a}
+    \ArcR{3}{2}{a}
+    \ArcR{3}{1}{b}
+    \end{VCPicture}
+  \end{solution}
+\item \lang{$L_2$}{$w\in \set{0,1}^*$}{$w$ no tiene ni $00$ ni $11$ como subcadena}
+\end{enumerate}
 
-\problem
-Considere los programas listados a continuación. ?`Qué imprime el interprete en cada caso?
+\problem Sea $\Sigma$ un alfabeto tal que $|\Sigma|=n$. Construya un AFD que acepte el lenguaje de los strings $w$ en $\Sigma^*$ donde cada símbolo aparece al menos dos veces. Por ejemplo, si $\Sigma=\set{a,b,c,d}$ el string $abbcbacdd$ pertenece al lenguaje, pero $abdbccbd$ y $aabbcc$ no.
 
-\begin{minted}[frame=lines,bgcolor=LightGray]{python}
-  >>> a = 1 
-  >>> b = 2
-  >>> a b +
-\end{minted}
-\begin{minted}[frame=lines,bgcolor=LightGray]{python}
-  >>> a = "Hola"
-  >>> a * "tarola"
-\end{minted}
-\begin{minted}[frame=lines,bgcolor=LightGray]{python}
-  >>> def sumToN(n):
-  ...        a = n*(n+1)
-  ...    return a/2
-\end{minted}
-\begin{minted}[frame=lines,bgcolor=LightGray]{python}
-  >>> def foo(x):
-  ...    return x/2 - 1
-  >>> a = foo(3)
-  >>> 8/a
-\end{minted}
+\begin{solution}
+  Representaremos los estados con $n$-tuplas donde cada posición corresponde a cuantas veces ha sido visto cada símbolo hasta el momento.
+  Como sólo es necesario saber si cada símbolo aparece al menos dos veces, paramos de contar en el 2.
+  Sin perdida de generalidad asumimos que $\Sigma = \set{1,2,\ldots,n}$.
 
-\problem
-Utilizando la ``Receta de Diseño'' vista en clases. Defina la función \verb|pesosADolar| que recibe un valor numérico correspondiente a la cantidad que se tiene en Pesos y que se desean transformar en Dolares. Considere que: 
-1 Dolar = 571 Pesos
+  Defimos entonces el AFD $(Q, \Sigma, \delta, q_0, F)$ tal que:
+  \begin{itemize}
+    \item $Q = \set{0,1,2}^n$
+    \item $q_0 = \vec{0}$
+    \item $F = \set{\vec{2}}$
+    \item $\delta(\langle a_1, \ldots, a_i,\ldots a_n \rangle, i) =
+           \langle a_1,\ldots, a_i \oplus_2 1, \ldots a_n \rangle$
+  \end{itemize}
+  Donde 
+  \[a \oplus_n b = 
+   \begin{cases}
+     a + b & a + b \leq n \\
+     n & a + b > n
+   \end{cases}
+  \]
+\end{solution}
 
-Modifique la función \verb|pesosADolar| de manera de que dicha función reciba 2 argumentos, el primero de ellos corresponde a la cantidad en Pesos que se desea transformar, mientras que el segundo argumento corresponde al factor de cambio que se utilizará.
+\problem Construya un diagrama de estados para un AFND que acepte cada uno de los siguiente lenguajes.
 
-?`Cómo podría generar una función que generalice el cambio de una divisa por otra entregando la cantidad y el factor de cambio?
+\begin{enumerate}
+\item \lang{$L_3$}{$w\in \set{a,b}^*$}{cada $a$ en $w$ esta antecedida y sucedida por una $b$}
+\item \lang{$L_4$}{$w\in \set{b,e,r}^*$}{$w$ contiene $beer$ como subcadena}
+\end{enumerate}
 
-\problem
-Considere los programas listados a continuación. ?`Qué imprime el interprete en cada caso? Explique la razón del comportamiento obtenido en cada caso.
+\problem Sea $\Sigma$ un alfabeto de tamaño $n$. Construya un AFND que acepte el siguiente lenguaje sobre $\Sigma\cup \{\#\}$
 
-\begin{minted}[frame=lines,bgcolor=LightGray]{python}
-  >>> densidad_cobre = 8960
-  >>> def volumen_cobre(masa):
-  ...     return masa/densidad_cobre
-  >>> volumen_cobre(2500)
-  >>> densidad_cobre = 8960.0
-  >>> volumen_cobre(2500)
-\end{minted}
-\begin{minted}[frame=lines,bgcolor=LightGray]{python}
-  >>> g = 9.78
-  >>> def peso(masa):
-  ...     g = 10
-  ...     return masa*g
-  >>> peso(50)
-  >>> g
-\end{minted}
-\begin{minted}[frame=lines,bgcolor=LightGray]{python}
-  >>> def presion(fuerza):
-  ...     area = 100
-  ...     return fuerza/area
-  >>> presion(1000)
-  >>> area
+\begin{center}
+\lang{$L_5$}{$\expand{w}{k}\#w_{k+1}$}{$w_i \in \Sigma$ y $\exists i\in\ords{k}, w_i=w_{k+1}$}
+\end{center}
 
-\end{minted}
+?`Qué tamaño tiene el AFND en función de $n$? ?`Qué puede decir del tamaño de un AFD que acepta el mismo lenguaje?
 
+\end{problems}
 \end{document}

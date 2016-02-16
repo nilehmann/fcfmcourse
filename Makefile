@@ -1,9 +1,11 @@
-LATEX=pdflatex -shell-escape
-FILE=Auxiliar1.tex
+LATEX=latex
+DVIPDF=dvipdf
+FILE=Auxiliar1
 all:
-	$(LATEX) $(FILE)
+	$(LATEX) $(FILE).tex
+	$(DVIPDF) $(FILE).dvi
 
 clean:
-	rm -rf *.log *.aux _minted* *.pdf
+	rm -rf *.log *.aux *.pdf *.dvi
 
 
